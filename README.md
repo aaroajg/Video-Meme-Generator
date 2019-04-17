@@ -1,3 +1,44 @@
+
+
+# Devtest Readme
+
+Hello candidate, Welcome to our little dev test. The goal of
+this exercise, is to asses your general skill level, and give
+us something to talk about at our next appointment.
+
+
+## What this app should do
+
+We'd like for you to build tiny app called the "Vintage Meme
+Machine". It will be a tool that allows user to overlay text
+on a video, and capture or share it.
+
+__These are the basic requirements:__
+
+- User can pick a point in the video                    
+- User can enter text that is placed over the video _still_                                
+- User can save this personalized content for later use
+        
+## What we want you to do
+
+Off course we don't expect you to build a full fledged app
+in such a short time frame.                  
+
+But we would like for you to get in the basic requirements,
+in one form or another. Beyond that feel free to show off
+your strenghts as a frontend developer.
+
+__Some ideas:__
+
+- Make it look really nice
+- Allow users to provide a custom video
+- Download the meme as an image file
+- Add fancy text effects to the text overlay
+- Push the resulting meme to a social media API
+
+_P.s. We've already added some libraries to make your life easier (Redux, Jss, React Router), but feel free to add more._
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
