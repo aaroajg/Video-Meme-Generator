@@ -9,8 +9,8 @@ us something to talk about at our next appointment.
 
 ## What this app should do
 
-We'd like for you to build tiny app called the "Vintage Meme
-Machine". It will be a tool that allows user to overlay text
+We'd like for you to build a tiny app called the "Vintage Meme
+Machine". It will be a tool that allows users to overlay text
 on a video, and capture or share it.
 
 __These are the basic requirements:__
