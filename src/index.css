@@ -6,9 +6,241 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: black;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+#headerDiv {
+  display: flex;
+  justify-content: space-between;
+  height: 60px;
+  padding-bottom: 50px;
+  background-image: url('images/header_background.jpg');
+}
+
+#logo {
+  height: 120px;
+  width: 150px;
+}
+
+#title {
+  text-align: center;
+  color: white;
+  font-family: Impact, Charcoal, sans-serif;
+  font-weight: bold;
+  font-size: 50px;
+}
+
+#title, .left-link, .right-link {
+  text-shadow:
+        2px 2px 0 #000,
+        -2px -2px 0 #000,
+        2px -2px 0 #000,
+        -2px 2px 0 #000,
+        0 2px 0 #000,
+        2px 0 0 #000,
+        0 -2px 0 #000,
+        -2px 0 0 #000,
+        2px 2px 5px #000;
+}
+
+#headerLinks {
+  display: flex;
+  padding-top: 20px;
+}
+
+#right-header {
+  display: flex;
+}
+
+.left-link, .right-link {
+  text-decoration: none;
+  color: white;
+  font-family: Impact, Charcoal, sans-serif;
+  font-size: 20px;
+}
+
+.left-link {
+  padding: 40px 80px 40px 30px;
+}
+
+.right-link {
+  padding: 20px;
+}
+
+.left-link a:hover, .right-link a:hover {
+  background-color: grey;
+}
+
+#footer {
+  text-align: center;
+  background-color: goldenrod;
+  height: 20px;
+  width: 100%;
+}
+
+#main-container {
+  margin: 30px 150px 30px 150px;
+  background-color: white;
+  border-style: dotted;
+  padding: 0px 30px 50px 30px;
+  background-color: #DCDCDC;
+}
+
+#main-container h1 {
+  color: brown;
+  text-shadow: -1px 0 0 #000000, 1px 1px 0 #000000,
+            2px -1px 0 #000000, 3px 0 0 #000000;
+  text-align: center;
+  font-size: 45px;
+}
+
+#main-container p {
+  color: #191970;
+  font-size: 20px;
+}
+
+#main-container p ul {
+  color: #2F4F4F;
+}
+
+ul li:after {
+  color: green;
+  content: ' ✓';
+  font-weight: bold;
+}
+
+#welcome-img {
+  float: right;
+  padding: 50px 50px 0px 0px;
+}
+
+#main-container #last-para {
+  text-align: center;
+  color: #6a3159;
+  font-weight: bold;
+  font-size: 25px;
+  text-shadow: 1px 1px black;
+}
+
+#video-options, #meme-props {
+  padding: 50px 0px 10px 150px;
+  font-size: 18px;
+}
+
+#meme-props {
+  font-weight: bold;
+}
+
+input[type='text'], input[type='number'] {
+  height: 20px;
+  border: 1px solid black;
+  font-size: 15px;
+}
+
+input[type='number'] {
+  text-align: center;
+}
+
+#container { 
+  display: none;
+  position: relative; 
+  text-align: center;
+}
+
+#container video {
+  position: relative;
+  z-index: 0;
+}
+
+.center-text {
+  text-align: center;
+  font-family: Impact, Charcoal, sans-serif;
+  font-weight: bold;
+  font-size: 30px;
+  color: green;
+}
+
+.display-hidden, #display-hidden-image, #input-text-color, #meme-props, #hidden-buttons, #json-file-select {
+  display: none;
+}
+
+/* #generate-meme-btn, #generate-meme-p {
+  text-align: center;
+} */
+
+#generate-meme {
+  display: none;
+  text-align: center;
+}
+
+#gen-btn, #download-btn, #top-btn, #save-btn, #upload-btn {
+  background: #ff751a;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+  border: 2px solid black;
+}
+
+#gen-btn span, #download-btn span, #top-btn span, #save-btn span, #upload-btn span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+#gen-btn span:after, #download-btn span:after, #top-btn span:after, #save-btn span:after, #upload-btn span:after {
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+#gen-btn:hover span, #download-btn:hover span, #top-btn:hover span, #save-btn:hover span, #upload-btn:hover span {
+  padding-right: 25px;
+}
+
+#gen-btn:hover span:after, #download-btn:hover span:after, #top-btn:hover span:after, #save-btn:hover span:after, #upload-btn:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+#gen-btn span:after {
+  content: '\00bb';
+}
+
+#download-btn span:after {
+  content: '\21E9';
+}
+
+#top-btn span:after {
+  content: '\21E1';
+}
+
+#save-btn span:after {
+  content: '\2714';
+}
+
+#upload-btn span:after {
+  content: '\21E7';
+}
+
+#display-hidden-image, #hidden-buttons {
+  text-align: center;
+}
+
+#hidden-buttons {
+  padding-top: 30px;
+}
+
+#thumbnail_img {
+  height: 450;
+  width: 600;
+  border: 2px solid black;
 }
