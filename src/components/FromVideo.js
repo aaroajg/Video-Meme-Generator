@@ -18,26 +18,13 @@ const styles = theme => ({
     background: '#DCDCDC',
     margin: '30px 150px 30px 150px',
     padding: '10px 30px 50px 30px',
-    '&  h1': {
-      fontSize: '5rem',
-      textAlign: 'center',
-      fontFamily: 'serif',
-      cursor: 'pointer'
-    },
     '& input': {
       margin: '10px'
     },
     '& a': {
       color: theme.palette.text,
     }
-  },
-  'title-primary': {
-    color: theme.palette.primary
-  },
-  'title-secondary': {
-    color: theme.palette.secondary
-  },
-  
+  }
 });
 
 const stp = (state) => ({
@@ -61,6 +48,7 @@ class FromVideo extends Component {
       videoSrc: '',
       color: 'black',
       isHexColor: 'no',
+      textStyle: 'bold',
       size: '40',
       savedData: '',
       fileName: '',
@@ -152,6 +140,7 @@ class FromVideo extends Component {
       topText: jsonData.topText,
       bottomText: jsonData.bottomText,
       color: jsonData.color,
+      textStyle: jsonData.textStyle,
       size: jsonData.size,
       isHexColor: jsonData.isHexColor
     });
@@ -199,17 +188,24 @@ class FromVideo extends Component {
 
   // Function to load video from URL pasted
   handleLoadVideoFromURL = () => {
-    document.getElementById('container').style.display = 'block';
-    document.getElementById('generate-meme').style.display = 'block';
     let videoNode = document.querySelector('video');
     videoNode.src = this.state.videoSrc;
+
+    videoNode.addEventListener("error", function (e) {
+        alert('Unable to play video');
+    });
+
+    videoNode.addEventListener("loadeddata", function () {
+      document.getElementById('container').style.display = 'block';
+      document.getElementById('generate-meme').style.display = 'block';
+    });
   }
 
   // Function to handle SAVE personalizations / DOWNLOAD meme image after providing names for the files
   handlePrompt = (event) => {
     let fileName = prompt('Save file as?');
     let dataStr = '';
-    const { color, topText, bottomText, size, isHexColor } = this.state;
+    const { color, topText, bottomText, size, isHexColor, textStyle } = this.state;
 
     if(event.target.id === 'download-span')
       fileName = fileName.concat('.png');
@@ -222,6 +218,7 @@ class FromVideo extends Component {
       jsonObject.topText = topText;
       jsonObject.bottomText = bottomText;
       jsonObject.isHexColor = isHexColor;
+      jsonObject.textStyle = textStyle;
 
       dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(jsonObject));
     }
@@ -234,7 +231,7 @@ class FromVideo extends Component {
 
   // Function to create image from video using HTML Canvas
   draw = (prop, value) => {
-    let { color, topText, bottomText } = this.state;
+    let { color, topText, bottomText, textStyle } = this.state;
     let size = this.state.size + 'px Arial';
 
     if(prop === 'jsonData') {
@@ -242,6 +239,7 @@ class FromVideo extends Component {
       topText = jsonData.topText;
       bottomText = jsonData.bottomText;
       size = jsonData.size + 'px Arial';
+      textStyle = jsonData.textStyle;
     }
     else if(prop === 'color')
       color = value;
@@ -251,6 +249,8 @@ class FromVideo extends Component {
       topText = value;
     else if(prop === 'bottomText')
       bottomText = value;
+    else if(prop === 'textStyle')
+      textStyle = value;
 
     let video = document.getElementById('my_video');
     let thecanvas = document.getElementById('thecanvas');
@@ -261,7 +261,7 @@ class FromVideo extends Component {
 
     let context = thecanvas.getContext('2d');
     context.drawImage( video, 0, 0, thecanvas.width, thecanvas.height);
-    context.font = 'Bold ' + size;
+    context.font = `${textStyle} ${size}`;
     context.textAlign = 'center'; 
 
     if(color === 'black')
@@ -317,171 +317,216 @@ class FromVideo extends Component {
       <div>
         <div className={classes.FromVideo}>
           <main id='top'>
-                <div id='video-options'>
-                  <label>
-                    <b>Do you want to load from existing json file? </b>
-                    <br />
+            <div id='video-options'>
+              <label>
+                <b>Do you want to load from existing json file? </b>
+                <br />
+                <input 
+                  type='radio'
+                  value='Yes'
+                  name='loadJson'
+                  checked={this.state.loadJson === 'Yes'}
+                  onChange={this.handleChange}
+                /> Yes
+                <input 
+                  type='radio'
+                  value='No'
+                  name='loadJson'
+                  checked={this.state.loadJson === 'No'}
+                  onChange={this.handleChange}
+                /> No
+              </label>
+              <br />
+              <label id='json-file-select'>
+                <b>Select json file to apply saved settings:</b>
+                <input type="file" name="video" accept=".json" id='fileinput' onChange={this.handleFileUpload}/>
+              </label>
+              <br />
+              <label>
+                <b>Select custom video file from your computer: </b>
+                <input type="file" name="video" accept="video/*" id='fileinput' onChange={this.handleFileUpload}/>
+              </label>
+              <br />
+              ( OR )
+              <br />
+              <label>
+                <b>Paste video URL: </b>
+                <input type="text" name="videoSrc" placeholder='https://' onChange={this.handleChange} />
+                <a href='#container'><button type='submit' value='Load Video' onClick={this.handleLoadVideoFromURL}>Load Video</button></a>
+              </label>
+            </div>
+            <br />
+            <div id='container'>
+              <video
+                id="my_video"
+                width="800"
+                height="450"
+                crossOrigin="anonymous"
+                playsInline                  
+                autoPlay
+                muted
+                loop
+                controls
+              >
+                <source
+                  src={this.state.videoSrc}
+                />
+              </video>
+            </div>
+            <br />
+            <br />
+            <div id='generate-meme'>
+            <p>Pause Video to select frame for meme</p>
+            <a id='generate-meme-btn' href='#display-hidden-image'><button id='gen-btn' type="submit" value="Generate Meme" onClick={this.handlePreviewMeme}><span>Preview Meme</span></button></a>
+            </div>
+              <br />
+              <hr />
+
+              <div className='display-hidden'>
+                <p>The Canvas</p>
+                <br />
+                <canvas id="thecanvas">
+                </canvas>
+              </div>
+
+              <br />
+              
+              <div id='display-hidden-image'>
+                <br />
+                <img id="thumbnail_img" alt="Right click to save" />
+                <br />
+              </div>
+
+              <br />
+
+              <div id='meme-props'>
+                <label>
+                  Meme text top:
+                  <input type="text" name='topText' value = {this.state.topText} placeholder="Something edgy..." onChange={this.handleChange} />
+                </label>
+
+                <label>
+                  Meme text bottom:
+                  <input type="text" name='bottomText' value = {this.state.bottomText} placeholder="Something edgy..." onChange={this.handleChange} />
+                </label>
+
+                <div id='text-color'>
+                  Choose your color:
+                  <input 
+                    type='radio' 
+                    name='color'
+                    className='text-color' 
+                    value='black' 
+                    checked={this.state.color === 'black'}
+                    onChange={this.handleChange}
+                  /> Black
+
+                  <label id='white'>
                     <input 
-                      type='radio'
-                      value='Yes'
-                      name='loadJson'
-                      checked={this.state.loadJson === 'Yes'}
+                      type='radio' 
+                      name='color'
+                      className='text-color' 
+                      value='white' 
+                      checked={this.state.color === 'white'}
                       onChange={this.handleChange}
-                    /> Yes
+                    /> White
+                  </label>
+
+                  <label id='blue'>
                     <input 
-                      type='radio'
-                      value='No'
-                      name='loadJson'
-                      checked={this.state.loadJson === 'No'}
+                      type='radio' 
+                      name='color'
+                      className='text-color' 
+                      value='blue' 
+                      checked={this.state.color === 'blue'}
                       onChange={this.handleChange}
-                    /> No
-                  </label>
-                  <br />
-                  <label id='json-file-select'>
-                    <b>Select json file to apply saved settings:</b>
-                    <input type="file" name="video" accept=".json" id='fileinput' onChange={this.handleFileUpload}/>
-                  </label>
-                  <br />
-                  <label>
-                    <b>Select custom video file from your computer: </b>
-                    <input type="file" name="video" accept="video/*" id='fileinput' onChange={this.handleFileUpload}/>
-                  </label>
-                  <br />
-                  ( OR )
-                  <br />
-                  <label>
-                    <b>Paste video URL: </b>
-                    <input type="text" name="videoSrc" placeholder='https://' onChange={this.handleChange} />
-                    <a href='#container'><button type='submit' value='Load Video' onClick={this.handleLoadVideoFromURL}>Load Video</button></a>
-                  </label>
-                </div>
-                <br />
-                <div id='container'>
-                  <video
-                    id="my_video"
-                    width="800"
-                    height="450"
-                    crossOrigin="anonymous"
-                    playsInline                  
-                    autoPlay
-                    muted
-                    loop
-                    controls
-                  >
-                    <source
-                      src={this.state.videoSrc}
-                    />
-                  </video>
-                </div>
-                <br />
-                <br />
-                <div id='generate-meme'>
-                <p>Pause Video to select frame for meme</p>
-                <a id='generate-meme-btn' href='#display-hidden-image'><button id='gen-btn' type="submit" value="Generate Meme" onClick={this.handlePreviewMeme}><span>Preview Meme</span></button></a>
-                </div>
-                  <br />
-                  <hr />
-
-                  <div className='display-hidden'>
-                    <p>The Canvas</p>
-                    <br />
-                    <canvas id="thecanvas">
-                    </canvas>
-                  </div>
-
-                  <br />
-                  
-                  <div id='display-hidden-image'>
-                    <br />
-                    <img id="thumbnail_img" alt="Right click to save" />
-                    <br />
-                  </div>
-
-                  <br />
-
-                  <div id='meme-props'>
-                  <label>
-                    Meme text top:
-                    <input type="text" name='topText' value = {this.state.topText} placeholder="Something edgy..." onChange={this.handleChange} />
+                    /> Blue
                   </label>
 
-                  <label>
-                    Meme text bottom:
-                    <input type="text" name='bottomText' value = {this.state.bottomText} placeholder="Something edgy..." onChange={this.handleChange} />
+                  <label id='red'>
+                    <input 
+                      type='radio' 
+                      name='color'
+                      className='text-color' 
+                      value='red' 
+                      checked={this.state.color === 'red'}
+                      onChange={this.handleChange}
+                    /> Red
                   </label>
 
-                  <div>
-                    <label>
-                      Choose your color:
-                      <input 
-                        type='radio' 
-                        name='color'
-                        className='text-color' 
-                        value='black' 
-                        checked={this.state.color === 'black'}
-                        onChange={this.handleChange}
-                      /> Black
-
-                      <input 
-                        type='radio' 
-                        name='color'
-                        className='text-color' 
-                        value='white' 
-                        checked={this.state.color === 'white'}
-                        onChange={this.handleChange}
-                      /> White
-
-                      <input 
-                        type='radio' 
-                        name='color'
-                        className='text-color' 
-                        value='blue' 
-                        checked={this.state.color === 'blue'}
-                        onChange={this.handleChange}
-                      /> Blue
-
-                      <input 
-                        type='radio' 
-                        name='color'
-                        className='text-color' 
-                        value='red' 
-                        checked={this.state.color === 'red'}
-                        onChange={this.handleChange}
-                      /> Red
-
-                      <input 
-                        type='radio' 
-                        name='isHexColor'
-                        value='yes'
-                        className='text-color' 
-                        checked={this.state.isHexColor === 'yes'}
-                        onChange={this.handleChange}
-                      /> Custom (hex value)
-
-                      <input 
-                        type='text' 
-                        id='input-text-color'
-                        name='color'
-                        placeholder='#000000'
-                        value={this.state.color}
-                        className='text-color' 
-                        onChange={this.handleChange}
-                      />
-                    </label>
-                  </div>
-
-                  <label>
-                    Font Size (in px):
-                    <input type="number" name='size' value = {this.state.size} placeholder=" default is 30px" onChange={this.handleChange} />
+                  <label id='hex-color'>
+                    <input 
+                      type='radio' 
+                      name='isHexColor'
+                      value='yes'
+                      className='text-color' 
+                      checked={this.state.isHexColor === 'yes'}
+                      onChange={this.handleChange}
+                    /> <span>C</span><span>u</span><span>s</span><span>t</span><span>o</span><span>m</span><span>(</span><span>h</span><span>e</span><span>x</span><span> </span><span>v</span><span>a</span><span>l</span><span>u</span><span>e</span><span>)</span>
                   </label>
+
+                  <input 
+                    type='text' 
+                    id='input-text-color'
+                    name='color'
+                    placeholder='#000000'
+                    value={this.state.color}
+                    className='text-color' 
+                    onChange={this.handleChange}
+                  />
                 </div>
 
-                <div id='hidden-buttons'>
-                  <div><a href='#container'><button id='top-btn'><span>Change Video Frame</span></button></a></div>
-                  <div><a href={this.state.imgSrc} download={this.state.fileName} ><button id='download-btn' name='download' onClick={this.handlePrompt}><span id='download-span'>Download</span></button></a></div>
-                  <div><a href={this.state.savedData} download={this.state.fileName}><button id='save-btn' name='save' onClick={this.handlePrompt}><span id='save-span'>Save changes for later use</span></button></a></div>
-                  <div><button id='upload-btn' onClick={this.uploadPhoto}><span>Upload on Facebook</span></button></div>
+                <div id='text-style'>
+                    <b>Style your text:</b>
+                    <input 
+                      type='radio' 
+                      name='textStyle'
+                      className='text-style' 
+                      value='bold' 
+                      checked={this.state.textStyle === 'bold'}
+                      onChange={this.handleChange}
+                    /> <b>Bold</b>
+
+                    <input 
+                      type='radio' 
+                      name='textStyle'
+                      className='text-style' 
+                      value='italic' 
+                      checked={this.state.textStyle === 'italic'}
+                      onChange={this.handleChange}
+                    /> <i>Italic</i>
+
+                    <input 
+                      type='radio' 
+                      name='textStyle'
+                      className='text-style' 
+                      value='italic bold' 
+                      checked={this.state.textStyle === 'italic bold'}
+                      onChange={this.handleChange}
+                    /> <i><b>Italic Bold</b></i>
+
+                    <input 
+                      type='radio' 
+                      name='textStyle'
+                      className='text-style' 
+                      value='' 
+                      checked={this.state.textStyle === ''}
+                      onChange={this.handleChange}
+                    /> None                      
                 </div>
+
+                <label>
+                  Font Size (in px):
+                  <input type="number" name='size' value = {this.state.size} placeholder=" default is 30px" onChange={this.handleChange} />
+                </label>
+              </div>
+
+              <div id='hidden-buttons'>
+                <div><a href='#container'><button id='top-btn'><span>Change Video Frame</span></button></a></div>
+                <div><a href={this.state.imgSrc} download={this.state.fileName} ><button id='download-btn' name='download' onClick={this.handlePrompt}><span id='download-span'>Download</span></button></a></div>
+                <div><a href={this.state.savedData} download={this.state.fileName}><button id='save-btn' name='save' onClick={this.handlePrompt}><span id='save-span'>Save changes for later use</span></button></a></div>
+                <div><button id='upload-btn' onClick={this.uploadPhoto}><span>Upload on Facebook</span></button></div>
+              </div>
           </main>
         </div>
         <Footer />

@@ -169,9 +169,73 @@ input[type='number'] {
   display: none;
 }
 
-/* #generate-meme-btn, #generate-meme-p {
-  text-align: center;
-} */
+#meme-props #text-style {
+  font-weight: normal;
+}
+
+#text-color #white {
+  color: white;
+  text-shadow: -1px 0 0 #000000, 1px 1px 0 #000000,
+            1px -1px 0 #000000, 1px 0 0 #000000;
+}
+
+#text-color #red {
+  color: red;
+}
+
+#text-color #blue {
+  color: blue;
+}
+
+/* Rainbow color text*/
+#text-color #hex-color span:nth-child(2) {
+  color: indigo;
+}
+#text-color #hex-color span:nth-child(3) {
+  color: violet;
+}
+#text-color #hex-color span:nth-child(4) {
+  color: blue;
+}
+#text-color #hex-color span:nth-child(5) {
+  color: green;
+}
+#text-color #hex-color span:nth-child(6) {
+  color: yellowgreen;
+}
+#text-color #hex-color span:nth-child(7) {
+  color: orange;
+}
+#text-color #hex-color span:nth-child(8) {
+  color: red;
+}
+#text-color #hex-color span:nth-child(9) {
+  color: indianred;
+}
+#text-color #hex-color span:nth-child(10) {
+  color: rebeccapurple;
+}
+#text-color #hex-color span:nth-child(11) {
+  color: darkblue;
+}
+#text-color #hex-color span:nth-child(13) {
+  color: olivedrab;
+}
+#text-color #hex-color span:nth-child(14) {
+  color: brown;
+}
+#text-color #hex-color span:nth-child(15) {
+  color: purple;
+}
+#text-color #hex-color span:nth-child(16) {
+  color: goldenrod;
+}
+#text-color #hex-color span:nth-child(17) {
+  color: grey;
+}
+#text-color #hex-color span:nth-child(18) {
+  color: royalblue;
+}
 
 #generate-meme {
   display: none;
