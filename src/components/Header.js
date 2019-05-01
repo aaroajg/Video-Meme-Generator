@@ -6,6 +6,12 @@ import FromVideo from './FromVideo';
 import logo from '../images/logo.png';
 
 function Header () {
+    const style = {
+        color: 'white',
+        padding: '100px',
+        textAlign: 'center'
+    }
+
     return (
         <div>
             <header id = 'headerDiv'>
@@ -23,10 +29,12 @@ function Header () {
                     <Link className='right-link' to='/readMe'>ReadMe</Link>
                 </div>
             </header>
+
             <Switch>
-                <Route path='/fromVideo'><FromVideo /></Route>
-                <Route path='/readMe'><ReadMe /></Route>
-                <Route path='/'><Welcome /></Route>
+                <Route exact path='/fromVideo' component={FromVideo} />
+                <Route exact path='/readMe' component={ReadMe} />
+                <Route exact path='/' component={Welcome} />
+                <Route path="*" render={() => <h1 style={style}>Umm thats a 404 Error... Page not found</h1>} />  
             </Switch>
         </div>
     );

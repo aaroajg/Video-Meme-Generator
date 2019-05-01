@@ -191,11 +191,11 @@ class FromVideo extends Component {
     let videoNode = document.querySelector('video');
     videoNode.src = this.state.videoSrc;
 
-    videoNode.addEventListener("error", function (e) {
+    videoNode.addEventListener("error", function videoError(e) {
         alert('Unable to play video');
     });
 
-    videoNode.addEventListener("loadeddata", function () {
+    videoNode.addEventListener("loadeddata", function videoPlaying() {
       document.getElementById('container').style.display = 'block';
       document.getElementById('generate-meme').style.display = 'block';
     });
@@ -319,7 +319,7 @@ class FromVideo extends Component {
           <main id='top'>
             <div id='video-options'>
               <label>
-                <b>Do you want to load from existing json file? </b>
+                <b>Do you want to load your changes from a previously saved file? (.json file only) </b>
                 <br />
                 <input 
                   type='radio'
@@ -532,6 +532,12 @@ class FromVideo extends Component {
         <Footer />
       </div>
     );
+  }
+
+  // Remove all actionListeners 
+  componentWillUnmount() {
+    document.querySelector('video').removeEventListener("error", function videoError(e){});
+    document.querySelector('video').addEventListener("loadeddata", function videoPlaying(){});
   }
 }
 
