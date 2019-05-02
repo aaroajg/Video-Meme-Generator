@@ -1,5 +1,4 @@
 import React from 'react';
-import Footer from './Footer';
 
 function ReadMe() {
     return (
@@ -57,7 +56,6 @@ function ReadMe() {
                     </p>
                 </section>
             </section>
-            <Footer />
         </div>
     );
 }

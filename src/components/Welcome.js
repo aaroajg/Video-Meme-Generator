@@ -1,5 +1,4 @@
 import React from 'react';
-import Footer from './Footer';
 import developer_done from '../images/developer_done.jpeg'
 import bugs from '../images/bugs.jpeg';
 
@@ -62,7 +61,6 @@ function Welcome() {
                     So 1, 2, 3, 4.... Declare a Meme war!!!
                 </p>
             </div>
-            <Footer />
         </div>
     );
 }

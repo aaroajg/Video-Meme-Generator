@@ -6,7 +6,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: black;
+  /* background-color: black; */
+  background-image: url('images/pattern.jpg');
 }
 
 code {
@@ -17,7 +18,7 @@ code {
 #headerDiv {
   display: flex;
   justify-content: space-between;
-  height: 60px;
+  height: 70px;
   padding-bottom: 50px;
   background-image: url('images/header_background.jpg');
 }
@@ -108,6 +109,14 @@ code {
   color: #2F4F4F;
 }
 
+#top {
+  padding: 10px 30px 50px 30px;
+}
+
+#top input {
+  margin: 10px;
+}
+
 ul li:after {
   color: green;
   content: ' ✓';
@@ -173,6 +182,14 @@ input[type='number'] {
   font-weight: normal;
 }
 
+#meme-props input[type='text'] {
+  width: 250px;
+}
+
+#meme-props #input-text-color {
+  width: 150px;
+}
+
 #text-color #white {
   color: white;
   text-shadow: -1px 0 0 #000000, 1px 1px 0 #000000,
@@ -192,7 +209,7 @@ input[type='number'] {
   color: indigo;
 }
 #text-color #hex-color span:nth-child(3) {
-  color: violet;
+  color: maroon;
 }
 #text-color #hex-color span:nth-child(4) {
   color: blue;
