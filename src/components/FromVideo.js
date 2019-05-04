@@ -46,7 +46,6 @@ class FromVideo extends Component {
 
   // Function to upload .json and video files
   handleFileUpload = (event) => { 
-    document.getElementById('generate-meme').style.display = 'block';
     const name = event.target.files[0].name;
     let file = event.target.files[0];
     const lastDot = name.lastIndexOf('.');
@@ -58,6 +57,7 @@ class FromVideo extends Component {
 
     else {
       document.getElementById('container').style.display = 'block';
+      document.getElementById('generate-meme').style.display = 'block';
       let fileURL = URL.createObjectURL(file);
       let videoNode = document.querySelector('video');
       videoNode.src = fileURL;
