@@ -1,12 +1,3 @@
-
-
-# Devtest Readme
-
-Hello candidate, Welcome to our little dev test. The goal of
-this exercise, is to asses your general skill level, and give
-us something to talk about at our next appointment.
-
-
 ## What this app should do
 
 We'd like for you to build a tiny app called the "Vintage Meme
